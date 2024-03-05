@@ -10,6 +10,6 @@
 
         public string Surname { get; set; }
 
-        public List<StudentCourse> StudentCourses { get; } = [];
+        public List<StudentCourse> StudentCourses { get; set;  } = [];
     }
 }

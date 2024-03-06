@@ -9,11 +9,13 @@ namespace StudentsProblem.Controllers
     {
         private readonly IStudentRepository studentRepository;
         private readonly ICourseRepository courseRepository;
+        private readonly ApplicationDbContext context;
 
-        public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository)
+        public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository, ApplicationDbContext context)
         {
             this.studentRepository = studentRepository;
             this.courseRepository = courseRepository;
+            this.context = context;     
         }
 
         [HttpGet]
@@ -24,26 +26,24 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(StudentCourse studentCourse)
+        public async Task<IActionResult> Add(StudentCourseViewModel scvm)
         {
-            try
+            var student = new Student()
             {
-                Course course = await courseRepository.GetCourseByIdAsync(studentCourse.CoursesId);
-
-                Student student = new()
+                Indeks = scvm.Indeks,
+                Name = scvm.Name,
+                Surname = scvm.Surname
+            };
+            foreach (var course in scvm.CourseIds)
+            {
+                student.StudentCourses.Add(new StudentCourse()
                 {
-                    Indeks = studentCourse.Student.Indeks,
-                    Name = studentCourse.Student.Name,
-                    Surname = studentCourse.Student.Surname,
-                    StudentCourses = new List<StudentCourse> { new StudentCourse { Course = course } }
-                };
-                await studentRepository.AddStudentAsync(student);
-                return RedirectToAction("Index");
+                    Student = student,
+                    CoursesId = course
+                });
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("some adding error...");
-            }
+            await studentRepository.AddStudentAsync(student);
+            return RedirectToAction("Index");
         }
     }
 }

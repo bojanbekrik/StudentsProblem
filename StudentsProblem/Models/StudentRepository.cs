@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudentsProblem.Models
 {
@@ -13,9 +14,8 @@ namespace StudentsProblem.Models
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            //return await _context.Students.OrderBy(x=>x.StudentId).ToListAsync();
-            return await _context.Students.Include(s=>s.StudentCourses)
-                .ThenInclude(sc=>sc.Course)
+            return await _context.Students.Include(sc=>sc.StudentCourses)
+                .ThenInclude(c=>c.Course)
                 .OrderBy(x=>x.StudentId)
                 .ToListAsync();
         }

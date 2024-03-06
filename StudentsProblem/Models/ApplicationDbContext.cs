@@ -16,7 +16,18 @@ namespace StudentsProblem.Models
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-            modelBuilder.Entity<StudentCourse>().ToTable("StudentCourse")
+            modelBuilder.Entity<Student>()
+                .HasMany(sc => sc.StudentCourses)
+                .WithOne(s => s.Student);
+
+            modelBuilder.Entity<Course>()
+                .HasMany(sc => sc.StudentCourses)
+                .WithOne(c => c.Course);
+
+            modelBuilder.Entity<StudentCourse>().HasKey();
+                
+
+            /*modelBuilder.Entity<StudentCourse>().ToTable("StudentCourse")
                 .HasKey(sc => new { sc.StudentsId, sc.CoursesId });
 
             modelBuilder.Entity<StudentCourse>()
@@ -27,7 +38,7 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<StudentCourse>()
                 .HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
-                .HasForeignKey(sc => sc.CoursesId);
+                .HasForeignKey(sc => sc.CoursesId);*/
         }
     }
 }

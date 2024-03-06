@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentsProblem.Models;
 
 namespace StudentsProblem.Controllers
@@ -43,6 +44,31 @@ namespace StudentsProblem.Controllers
                 });
             }
             await studentRepository.AddStudentAsync(student);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("{id}/details")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var student = await studentRepository.GetStudentByIdAsync(id);
+            return new JsonResult(student);
+        }
+
+        [HttpPut("{id}/update")] 
+        public async Task<IActionResult> Update(int id, StudentCourseRequestDto scrd)
+        {
+            var student = await studentRepository.GetStudentByIdAsync(id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            student.Name = scrd.Name;
+            
+            studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
+
+            context.Students.Update(student);
             return RedirectToAction("Index");
         }
     }

@@ -20,5 +20,12 @@ namespace StudentsProblem.Controllers
             var courses = await _courseRepository.GetAllCoursesAsync();
             return new JsonResult(courses);
         }
+
+        [HttpGet("{id}/details")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var course = await _courseRepository.GetCourseByIdAsync(id);
+            return new JsonResult(course);
+        }
     }
 }

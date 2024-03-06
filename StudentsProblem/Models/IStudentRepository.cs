@@ -5,5 +5,10 @@
         Task<IEnumerable<Student>> GetAllStudentsAsync();
 
         Task<int> AddStudentAsync(Student student);
+
+        Task<Student?> GetStudentByIdAsync(int id);
+
+        Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds);
+
     }
 }

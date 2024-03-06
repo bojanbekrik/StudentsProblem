@@ -1,6 +1,6 @@
 ﻿namespace StudentsProblem.Models
 {
-    public class StudentCourseViewModel
+    public class StudentCourseRequestDto
     {
         public int Indeks { get; set; }
         public string Name { get; set; }

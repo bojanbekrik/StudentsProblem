@@ -24,12 +24,13 @@ namespace StudentsProblem.Models
                 .HasMany(sc => sc.StudentCourses)
                 .WithOne(c => c.Course);
 
-            modelBuilder.Entity<StudentCourse>().HasKey();
+            modelBuilder.Entity<StudentCourse>()
+                .HasIndex(sc => sc.Id)
+                .IsUnique();
                 
 
-            /*modelBuilder.Entity<StudentCourse>().ToTable("StudentCourse")
-                .HasKey(sc => new { sc.StudentsId, sc.CoursesId });
 
+            /*
             modelBuilder.Entity<StudentCourse>()
                 .HasOne(sc => sc.Student)
                 .WithMany(s => s.StudentCourses)
@@ -38,7 +39,8 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<StudentCourse>()
                 .HasOne(sc => sc.Course)
                 .WithMany(c => c.StudentCourses)
-                .HasForeignKey(sc => sc.CoursesId);*/
+                .HasForeignKey(sc => sc.CoursesId);
+            */
         }
     }
 }

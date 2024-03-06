@@ -64,30 +64,41 @@ namespace StudentsProblem.Migrations
 
             modelBuilder.Entity("StudentsProblem.Models.StudentCourse", b =>
                 {
-                    b.Property<int>("StudentsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CoursesId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.HasKey("StudentsId", "CoursesId");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CoursesId");
+                    b.HasKey("Id");
 
-                    b.ToTable("StudentCourse", (string)null);
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.StudentCourse", b =>
                 {
                     b.HasOne("StudentsProblem.Models.Course", "Course")
                         .WithMany("StudentCourses")
-                        .HasForeignKey("CoursesId")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StudentsProblem.Models.Student", "Student")
                         .WithMany("StudentCourses")
-                        .HasForeignKey("StudentsId")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

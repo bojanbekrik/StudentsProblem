@@ -26,20 +26,20 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(StudentCourseViewModel scvm)
+        public async Task<IActionResult> Add(StudentCourseRequestDto scrq)
         {
             var student = new Student()
             {
-                Indeks = scvm.Indeks,
-                Name = scvm.Name,
-                Surname = scvm.Surname
+                Indeks = scrq.Indeks,
+                Name = scrq.Name,
+                Surname = scrq.Surname
             };
-            foreach (var course in scvm.CourseIds)
+            foreach (var course in scrq.CourseIds)
             {
                 student.StudentCourses.Add(new StudentCourse()
                 {
                     Student = student,
-                    CoursesId = course
+                    CourseId = course
                 });
             }
             await studentRepository.AddStudentAsync(student);

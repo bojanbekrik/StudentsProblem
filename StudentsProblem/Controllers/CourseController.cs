@@ -41,7 +41,7 @@ namespace StudentsProblem.Controllers
 
             c.CourseName = course.CourseName;
             await _courseRepository.UpdateCourseAsync(c);
-            return RedirectToAction("Index");
+            return Ok(c);
         }
 
         [HttpDelete("{id}/delete")]
@@ -55,7 +55,7 @@ namespace StudentsProblem.Controllers
             }
 
             await _courseRepository.DeleteCourseAsync(id);
-            return RedirectToAction("Index");
+            return Ok(c);
         }
 
     }

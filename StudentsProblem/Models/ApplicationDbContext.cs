@@ -19,7 +19,7 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<Student>()
                 .HasMany(sc => sc.StudentCourses)
                 .WithOne(s => s.Student)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Course>()
                 .HasMany(sc => sc.StudentCourses)

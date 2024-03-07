@@ -44,7 +44,7 @@ namespace StudentsProblem.Controllers
                 });
             }
             await studentRepository.AddStudentAsync(student);
-            return RedirectToAction("Index");
+            return Ok(student);
         }
 
         [HttpGet("{id}/details")]
@@ -69,7 +69,7 @@ namespace StudentsProblem.Controllers
             studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
 
             context.Students.Update(student);
-            return RedirectToAction("Index");
+            return Ok(student);
         }
 
         [HttpDelete("{id}/delete")]
@@ -81,9 +81,11 @@ namespace StudentsProblem.Controllers
             {
                 return NotFound();
             }
-
-            await studentRepository.DeleteStudentAsync(student.StudentId);
-            return RedirectToAction("Index");
+            else
+            {
+                await studentRepository.DeleteStudentAsync(id);
+                return Ok(student);
+            }
         }
     }
 }

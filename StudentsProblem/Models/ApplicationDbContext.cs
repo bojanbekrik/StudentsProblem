@@ -29,20 +29,6 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<StudentCourse>()
                 .HasIndex(sc => sc.Id)
                 .IsUnique();
-                
-
-
-            /*
-            modelBuilder.Entity<StudentCourse>()
-                .HasOne(sc => sc.Student)
-                .WithMany(s => s.StudentCourses)
-                .HasForeignKey(sc => sc.StudentsId);
-
-            modelBuilder.Entity<StudentCourse>()
-                .HasOne(sc => sc.Course)
-                .WithMany(c => c.StudentCourses)
-                .HasForeignKey(sc => sc.CoursesId);
-            */
         }
     }
 }

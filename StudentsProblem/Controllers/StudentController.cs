@@ -66,7 +66,7 @@ namespace StudentsProblem.Controllers
 
             student.Name = scrd.Name;
             
-            studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
+            await studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
 
             context.Students.Update(student);
             return Ok(student);

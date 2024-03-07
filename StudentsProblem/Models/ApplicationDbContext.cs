@@ -23,7 +23,8 @@ namespace StudentsProblem.Models
 
             modelBuilder.Entity<Course>()
                 .HasMany(sc => sc.StudentCourses)
-                .WithOne(c => c.Course);
+                .WithOne(c => c.Course)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<StudentCourse>()
                 .HasIndex(sc => sc.Id)

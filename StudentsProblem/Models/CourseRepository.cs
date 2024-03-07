@@ -22,5 +22,34 @@ namespace StudentsProblem.Models
         {
             return await _context.Courses.FirstOrDefaultAsync(x=>x.CourseId == id);
         }
+
+        public async Task<int> UpdateCourseAsync(Course course)
+        {
+            var c = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == course.CourseId);
+
+            if (c != null)
+            {
+                c.CourseName = course.CourseName;
+                return await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentException("Course to update cant be found");
+            }
+        }
+
+        public async Task<int> DeleteCourseAsync(int id)
+        {
+            var c = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+
+            if (c == null)
+            {
+                throw new ArgumentException("Course to delete cant be found");
+            }
+
+            _context.Courses.Remove(c);
+            return await _context.SaveChangesAsync();
+
+        }
     }
 }

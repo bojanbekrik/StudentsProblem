@@ -10,5 +10,7 @@
 
         Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds);
 
+        Task <int> DeleteStudentAsync(int id);
+
     }
 }

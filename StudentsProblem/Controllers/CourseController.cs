@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsProblem.Models;
+using System.Security.Cryptography.Xml;
 
 namespace StudentsProblem.Controllers
 {
@@ -27,5 +28,35 @@ namespace StudentsProblem.Controllers
             var course = await _courseRepository.GetCourseByIdAsync(id);
             return new JsonResult(course);
         }
+
+        [HttpPut("{id}/update")]
+        public async Task<IActionResult> Update(Course course)
+        {
+            var c = await _courseRepository.GetCourseByIdAsync(course.CourseId);
+
+            if (c==null)
+            {
+                return NotFound();
+            }
+
+            c.CourseName = course.CourseName;
+            await _courseRepository.UpdateCourseAsync(c);
+            return RedirectToAction("Index");
+        }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var c = await _courseRepository.GetCourseByIdAsync(id);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            await _courseRepository.DeleteCourseAsync(id);
+            return RedirectToAction("Index");
+        }
+
     }
 }

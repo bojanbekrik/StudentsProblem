@@ -71,5 +71,19 @@ namespace StudentsProblem.Controllers
             context.Students.Update(student);
             return RedirectToAction("Index");
         }
+
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var student = await studentRepository.GetStudentByIdAsync(id);
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            await studentRepository.DeleteStudentAsync(student.StudentId);
+            return RedirectToAction("Index");
+        }
     }
 }

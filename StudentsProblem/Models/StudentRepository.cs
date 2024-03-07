@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO.Pipelines;
+using System.Linq;
 
 namespace StudentsProblem.Models
 {
@@ -50,5 +53,23 @@ namespace StudentsProblem.Models
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task<int> DeleteStudentAsync(int id)
+        {
+            var studentToDelete = await _context.Students.FirstOrDefaultAsync(s=>s.StudentId == id);
+
+            if (studentToDelete != null)
+            {
+                _context.Students.Remove(studentToDelete);
+                
+                return await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentException("The student to delete can't be found.");
+            }
+        }
+
     }
 }
+

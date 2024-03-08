@@ -89,13 +89,11 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpGet("/search")]
-        public async Task<IActionResult> Search(string searchQuery)
+        public async Task<IActionResult> Search(string searchByNameOrSurname)
         {
-            //var allStudents = await studentRepository.GetAllStudentsAsync();
-
-            if (searchQuery != null)
+            if (searchByNameOrSurname != null)
             {
-                var students = await studentRepository.SearchStudentsAsync(searchQuery);
+                var students = await studentRepository.SearchStudentsAsync(searchByNameOrSurname);
                 return Ok(students);
             }
             else

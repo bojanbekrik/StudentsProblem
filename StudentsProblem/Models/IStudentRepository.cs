@@ -12,7 +12,7 @@
 
         Task <int> DeleteStudentAsync(int id);
 
-        Task<IEnumerable<Student>> SearchStudentsAsync(string searchQuery);
+        Task<IEnumerable<Student>> SearchStudentsAsync(string searchByNameOrSurname);
 
     }
 }

@@ -71,17 +71,17 @@ namespace StudentsProblem.Models
             }
         }
 
-        public async Task<IEnumerable<Student>> SearchStudentsAsync(string searchQuery)
+        public async Task<IEnumerable<Student>> SearchStudentsAsync(string searchByNameOrSurname)
         {
             var students = from s in _context.Students select s;
 
-            if (searchQuery == null)
+            if (searchByNameOrSurname == null)
             {
                 throw new ArgumentException("The string query is null");
             }
             else
             {
-                students = students.Where(s => s.Name.Contains(searchQuery));
+                students = students.Where(s => s.Name.Contains(searchByNameOrSurname) || s.Surname.Contains(searchByNameOrSurname));
             }
 
             return await students.ToListAsync();

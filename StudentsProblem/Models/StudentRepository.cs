@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IO.Pipelines;
 using System.Linq;
 
@@ -68,6 +69,22 @@ namespace StudentsProblem.Models
             {
                 throw new ArgumentException("The student to delete can't be found.");
             }
+        }
+
+        public async Task<IEnumerable<Student>> SearchStudentsAsync(string searchQuery)
+        {
+            var students = from s in _context.Students select s;
+
+            if (searchQuery == null)
+            {
+                throw new ArgumentException("The string query is null");
+            }
+            else
+            {
+                students = students.Where(s => s.Name.Contains(searchQuery));
+            }
+
+            return await students.ToListAsync();
         }
 
     }

@@ -87,5 +87,21 @@ namespace StudentsProblem.Controllers
                 return Ok(student);
             }
         }
+
+        [HttpGet("/search")]
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            //var allStudents = await studentRepository.GetAllStudentsAsync();
+
+            if (searchQuery != null)
+            {
+                var students = await studentRepository.SearchStudentsAsync(searchQuery);
+                return Ok(students);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

@@ -65,6 +65,8 @@ namespace StudentsProblem.Controllers
             }
 
             student.Name = scrd.Name;
+            student.Surname = scrd.Surname;
+            student.Indeks = scrd.Indeks;
             
             await studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
 

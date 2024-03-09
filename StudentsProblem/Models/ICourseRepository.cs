@@ -9,5 +9,7 @@
         Task<int> UpdateCourseAsync(Course course);
 
         Task<int> DeleteCourseAsync(int id);
+
+        Task<int> AddCourseAsync(Course course);
     }
 }

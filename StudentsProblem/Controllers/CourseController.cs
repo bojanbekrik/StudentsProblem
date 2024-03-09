@@ -58,5 +58,12 @@ namespace StudentsProblem.Controllers
             return Ok(c);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(Course course)
+        {
+            await _courseRepository.AddCourseAsync(course);
+            return Ok(course);
+        }
+
     }
 }

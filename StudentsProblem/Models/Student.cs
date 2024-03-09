@@ -10,7 +10,7 @@
 
         public string Surname { get; set; }
 
-        public List<StudentCourse> StudentCourses { get; set;  } = [];
+        public List<StudentCourse> StudentCourses { get; } = [];
     
     }
 }

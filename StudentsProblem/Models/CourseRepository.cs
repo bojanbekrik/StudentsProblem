@@ -49,7 +49,12 @@ namespace StudentsProblem.Models
 
             _context.Courses.Remove(c);
             return await _context.SaveChangesAsync();
+        }
 
+        public async Task<int> AddCourseAsync(Course course)
+        {
+            _context.Courses.Add(course);
+            return await _context.SaveChangesAsync();
         }
     }
 }

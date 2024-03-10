@@ -9,5 +9,7 @@
         Task<int> AddSchoolAsync(School school);
 
         Task<int> UpdateSchoolAsync(School school);
+
+        Task<int> DeleteSchoolAsync(int id);
     }
 }

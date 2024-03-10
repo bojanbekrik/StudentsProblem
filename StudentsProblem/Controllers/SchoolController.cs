@@ -71,5 +71,20 @@ namespace StudentsProblem.Controllers
             return Ok(sch);
         }
 
+        [HttpDelete("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var schToDelete = await schoolRepository.GetSchoolByIdAsync(id);
+            if (schToDelete == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await schoolRepository.DeleteSchoolAsync(id);
+                return Ok(schToDelete);
+            }
+        }
+
     }
 }

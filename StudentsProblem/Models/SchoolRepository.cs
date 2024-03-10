@@ -46,25 +46,21 @@ namespace StudentsProblem.Models
             return await context.SaveChangesAsync();
         }
 
-        /*
-        public async Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds)
+        public async Task<int> DeleteSchoolAsync(int id)
         {
-            var existingIds = student.StudentCourses.Select(sc => sc.CourseId).ToList();
-            var toAdd = selectedCourseIds.Except(existingIds).ToList();
-            var toRemove = existingIds.Except(selectedCourseIds).ToList();
+            var schoolToDelete = await context.School
+                .Include(a => a.Address)
+                .FirstOrDefaultAsync(sch => sch.Id == id);
 
-            student.StudentCourses.RemoveAll(sc => toRemove.Contains(sc.CourseId));
-
-            foreach (var courseId in toAdd)
+            if (schoolToDelete == null)
             {
-                student.StudentCourses.Add(new StudentCourse()
-                {
-                    CourseId = courseId
-                });
+                throw new ArgumentException("Can not find school with that id.");
             }
-
-            await _context.SaveChangesAsync();
-        } 
-        */
+            else
+            {
+                context.Remove(schoolToDelete);
+                return await context.SaveChangesAsync();
+            }
+        }
     }
 }

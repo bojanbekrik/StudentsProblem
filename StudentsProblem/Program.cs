@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 //builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x =>

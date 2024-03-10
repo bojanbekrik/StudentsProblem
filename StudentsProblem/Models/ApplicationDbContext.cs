@@ -12,6 +12,8 @@ namespace StudentsProblem.Models
 
         public DbSet<Course> Courses { get; set; }
 
+        public DbSet<Address> Address { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
@@ -24,7 +26,7 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<Course>()
                 .HasMany(sc => sc.StudentCourses)
                 .WithOne(c => c.Course)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<StudentCourse>()
                 .HasIndex(sc => sc.Id)

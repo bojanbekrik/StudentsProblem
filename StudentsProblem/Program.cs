@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
 //builder.Services.AddControllers();
 builder.Services.AddControllers().AddJsonOptions(x =>

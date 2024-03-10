@@ -11,6 +11,8 @@
         public string Surname { get; set; }
 
         public List<StudentCourse> StudentCourses { get; } = [];
+
+        //public School School { get; set; }
     
     }
 }

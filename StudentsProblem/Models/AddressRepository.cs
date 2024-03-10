@@ -18,7 +18,7 @@ namespace StudentsProblem.Models
 
         public async Task<Address>? GetAddressByIdAsync(int id)
         {
-            var addressToFind = await context.Address.OrderBy(a => a.Id).FirstOrDefaultAsync(x => x.Id == id);
+            var addressToFind = await context.Address.FirstOrDefaultAsync(x => x.Id == id);
             if (addressToFind == null) 
             {
                 throw new ArgumentException("Can not find that address");

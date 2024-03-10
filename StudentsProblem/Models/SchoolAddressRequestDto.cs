@@ -1,13 +1,11 @@
 ﻿namespace StudentsProblem.Models
 {
-    public class Address
+    public class SchoolAddressRequestDto
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int Number { get; set; }
-
-        public School? School { get; set; }
+        public int AddressId { get; set; }
     }
 }

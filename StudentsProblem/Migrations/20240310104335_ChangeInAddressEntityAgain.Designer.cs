@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsProblem.Models;
 
@@ -10,9 +11,11 @@ using StudentsProblem.Models;
 namespace StudentsProblem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310104335_ChangeInAddressEntityAgain")]
+    partial class ChangeInAddressEntityAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,8 +78,7 @@ namespace StudentsProblem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.ToTable("School");
                 });
@@ -134,8 +136,8 @@ namespace StudentsProblem.Migrations
             modelBuilder.Entity("StudentsProblem.Models.School", b =>
                 {
                     b.HasOne("StudentsProblem.Models.Address", "Address")
-                        .WithOne("School")
-                        .HasForeignKey("StudentsProblem.Models.School", "AddressId")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -159,11 +161,6 @@ namespace StudentsProblem.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("StudentsProblem.Models.Address", b =>
-                {
-                    b.Navigation("School");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.Course", b =>

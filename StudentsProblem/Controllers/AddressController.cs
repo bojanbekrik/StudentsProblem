@@ -17,14 +17,14 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAddressesAsync()
+        public async Task<IActionResult> Index()
         {
             var addresses = await addressRepository.GetAllAddressesAsync();
             return new JsonResult(addresses);
         }
 
         [HttpGet("{id}/details")]
-        public async Task<IActionResult> GetAddressByIdAsync(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var address = await addressRepository.GetAddressByIdAsync(id);
             if (address == null)
@@ -38,14 +38,14 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAddressAsync(Address address)
+        public async Task<IActionResult> Add(Address address)
         {
             await addressRepository.AddAddressAsync(address);
             return Ok(address);
         }
 
         [HttpPut("{id}/update")]
-        public async Task<IActionResult> UpdateAddressAsync(Address address)
+        public async Task<IActionResult> Update(Address address)
         {
             if (address == null)
             {
@@ -56,7 +56,7 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpDelete("{id}/delete")]
-        public async Task<IActionResult> DeleteAddressAsync(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var addressToDelete = await addressRepository.GetAddressByIdAsync(id);
             if (addressToDelete == null)

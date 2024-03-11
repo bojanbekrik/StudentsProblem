@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using StudentsProblem.Dtos;
 using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
+using StudentsProblem.Utilities;
+using System.IO.Pipelines;
 
 namespace StudentsProblem.Controllers
 {
@@ -13,6 +15,7 @@ namespace StudentsProblem.Controllers
         private readonly IStudentRepository studentRepository;
         private readonly ICourseRepository courseRepository;
         private readonly ApplicationDbContext context;
+        private int pageSize = 2;
 
         public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository, ApplicationDbContext context)
         {
@@ -107,6 +110,21 @@ namespace StudentsProblem.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpGet("/pagination")]
+        public async Task<IActionResult> IndexPaging(int? pageNumber)
+        {
+            var students = await studentRepository.GetStudentsPagedAsync(pageNumber, pageSize);
+
+            pageNumber ??= 1;
+
+            var count = await studentRepository.GetAllStudentsCountAsync();
+
+            return new JsonResult(new PaginatedList<Student>(students.ToList(), count, pageNumber.Value, pageSize));
+            //page size mi e 2
+            //vrakja po 2ca na strana
+            //poso imam 11 momentalno ako probas strana 6 kje go vrati samo posledniot
         }
     }
 }

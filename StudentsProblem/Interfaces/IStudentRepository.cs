@@ -16,5 +16,8 @@ namespace StudentsProblem.Interfaces
 
         Task<IEnumerable<Student>> SearchStudentsAsync(string searchByNameOrSurname);
 
+        Task<int> GetAllStudentsCountAsync();
+
+        Task<IEnumerable<Student>> GetStudentsPagedAsync(int? pageNumber, int pageSize);
     }
 }

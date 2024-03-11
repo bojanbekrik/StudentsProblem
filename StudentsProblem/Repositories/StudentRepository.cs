@@ -90,6 +90,24 @@ namespace StudentsProblem.Repositories
             return await students.ToListAsync();
         }
 
+        public async Task<int> GetAllStudentsCountAsync()
+        {
+            IQueryable<Student> allStudents = from s in _context.Students select s;
+            var count = await allStudents.CountAsync();
+
+            return count;
+        }
+
+        public async Task<IEnumerable<Student>> GetStudentsPagedAsync(int? pageNumber, int pageSize)
+        {
+            IQueryable<Student> students = from s in _context.Students select s;
+
+            pageNumber ??= 1;
+
+            students = students.Skip((pageNumber.Value-1) * pageSize).Take(pageSize);
+
+            return await students.AsNoTracking().ToListAsync();
+        }
     }
 }
 

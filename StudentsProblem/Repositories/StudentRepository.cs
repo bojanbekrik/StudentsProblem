@@ -35,8 +35,11 @@ namespace StudentsProblem.Repositories
 
         public async Task<Student?> GetStudentByIdAsync(int id)
         {
-            return await _context.Students.Include(sc => sc.StudentCourses)
-                .ThenInclude(c => c.Course).FirstOrDefaultAsync(x => x.StudentId == id);
+            return await _context.Students
+                .Include(sc => sc.StudentCourses)
+                .ThenInclude(c => c.Course)
+                .Include(sch => sch.School)
+                .FirstOrDefaultAsync(x => x.StudentId == id);
         }
 
         public async Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds)
@@ -107,6 +110,24 @@ namespace StudentsProblem.Repositories
             students = students.Skip((pageNumber.Value-1) * pageSize).Take(pageSize);
 
             return await students.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<Student> SearchStudentByIndeksAsync(int indeks)
+        {
+            var students = from s in _context.Students select s;
+
+            students = students.Where(s => s.Indeks.Equals(indeks));
+
+            foreach (var student in students)
+            {
+                if (student.Indeks == indeks)
+                {
+                    return student;
+                }
+            }
+
+            throw new ArgumentException("There is not a student with that indeks");
+            
         }
     }
 }

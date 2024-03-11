@@ -19,5 +19,7 @@ namespace StudentsProblem.Interfaces
         Task<int> GetAllStudentsCountAsync();
 
         Task<IEnumerable<Student>> GetStudentsPagedAsync(int? pageNumber, int pageSize);
+
+        Task<Student> SearchStudentByIndeksAsync(int indeks);
     }
 }

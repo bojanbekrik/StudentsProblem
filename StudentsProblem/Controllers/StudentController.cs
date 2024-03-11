@@ -126,5 +126,19 @@ namespace StudentsProblem.Controllers
             //vrakja po 2ca na strana
             //poso imam 11 momentalno ako probas strana 6 kje go vrati samo posledniot
         }
+
+        [HttpGet("searchByIndeks/{indeks}")]
+        public async Task<IActionResult> SearchByIndeks(int indeks)
+        {
+            var student = await studentRepository.SearchStudentByIndeksAsync(indeks);
+            if (student != null)
+            {
+                return Ok(student);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
     }
 }

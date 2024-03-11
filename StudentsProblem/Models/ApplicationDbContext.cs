@@ -33,6 +33,11 @@ namespace StudentsProblem.Models
             modelBuilder.Entity<StudentCourse>()
                 .HasIndex(sc => sc.Id)
                 .IsUnique();
+
+            modelBuilder.Entity<School>()
+                .HasMany(s => s.Students)
+                .WithOne(sch => sch.School)
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

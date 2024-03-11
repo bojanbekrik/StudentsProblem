@@ -15,6 +15,7 @@ namespace StudentsProblem.Models
         {
             return await context.School
                 .Include(a => a.Address)
+                .Include(s => s.Students)
                 .OrderBy(x => x.Id).ToListAsync();
         }
 

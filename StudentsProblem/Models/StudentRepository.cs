@@ -20,6 +20,7 @@ namespace StudentsProblem.Models
         {
             return await _context.Students.Include(sc => sc.StudentCourses)
                 .ThenInclude(c => c.Course)
+                .Include(sch => sch.School)
                 .OrderBy(s => s.StudentId)
                 .ToListAsync();
         }

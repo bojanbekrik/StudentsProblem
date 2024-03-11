@@ -10,7 +10,7 @@
 
         public Address? Address { get; set; }
 
-        //public List<Student>? Students { get; set; }
+        public List<Student> Students { get; set; }
     }
 }
 // adresa mozes da kreiras bez da i postavis skolo na taa adresa

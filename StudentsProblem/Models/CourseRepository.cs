@@ -15,7 +15,11 @@ namespace StudentsProblem.Models
 
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
-            return await _context.Courses.OrderBy(x => x.CourseId).ToListAsync(); 
+            //return await _context.Courses.OrderBy(x => x.CourseId).ToListAsync(); 
+            return await _context.Courses
+                .Include(sc => sc.StudentCourses)
+                .ThenInclude(s => s.Student)
+                .OrderBy(x => x.CourseId).ToListAsync();
         }
 
         public async Task<Course?> GetCourseByIdAsync(int id)

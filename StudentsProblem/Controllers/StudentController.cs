@@ -33,8 +33,10 @@ namespace StudentsProblem.Controllers
             {
                 Indeks = scrq.Indeks,
                 Name = scrq.Name,
-                Surname = scrq.Surname
+                Surname = scrq.Surname,
+                SchoolId = scrq.SchoolId
             };
+
             foreach (var course in scrq.CourseIds)
             {
                 student.StudentCourses.Add(new StudentCourse()
@@ -43,6 +45,7 @@ namespace StudentsProblem.Controllers
                     CourseId = course
                 });
             }
+
             await studentRepository.AddStudentAsync(student);
             return Ok(student);
         }

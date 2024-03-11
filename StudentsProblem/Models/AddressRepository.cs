@@ -13,12 +13,17 @@ namespace StudentsProblem.Models
 
         public async Task<IEnumerable<Address>> GetAllAddressesAsync()
         {
-            return await context.Address.OrderBy(a=>a.Id).ToListAsync();
+            return await context.Address
+                .Include(sch => sch.School)
+                .OrderBy(a=>a.Id).ToListAsync();
         }
 
         public async Task<Address>? GetAddressByIdAsync(int id)
         {
-            var addressToFind = await context.Address.FirstOrDefaultAsync(x => x.Id == id);
+            var addressToFind = await context.Address 
+                .Include (sch => sch.School)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (addressToFind == null) 
             {
                 throw new ArgumentException("Can not find that address");

@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using StudentsProblem.Interfaces;
+using StudentsProblem.Models;
 using System.IO.Pipelines;
 using System.Linq;
 
-namespace StudentsProblem.Models
+namespace StudentsProblem.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
@@ -34,7 +36,7 @@ namespace StudentsProblem.Models
         public async Task<Student?> GetStudentByIdAsync(int id)
         {
             return await _context.Students.Include(sc => sc.StudentCourses)
-                .ThenInclude(c => c.Course).FirstOrDefaultAsync(x=>x.StudentId == id);
+                .ThenInclude(c => c.Course).FirstOrDefaultAsync(x => x.StudentId == id);
         }
 
         public async Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds)
@@ -58,12 +60,12 @@ namespace StudentsProblem.Models
 
         public async Task<int> DeleteStudentAsync(int id)
         {
-            var studentToDelete = await _context.Students.FirstOrDefaultAsync(s=>s.StudentId == id);
+            var studentToDelete = await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
 
             if (studentToDelete != null)
             {
                 _context.Students.Remove(studentToDelete);
-                
+
                 return await _context.SaveChangesAsync();
             }
             else

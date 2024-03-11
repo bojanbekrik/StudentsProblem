@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentsProblem.Interfaces;
+using StudentsProblem.Models;
 
-namespace StudentsProblem.Models
+namespace StudentsProblem.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
@@ -15,16 +17,16 @@ namespace StudentsProblem.Models
         {
             return await context.Address
                 .Include(sch => sch.School)
-                .OrderBy(a=>a.Id).ToListAsync();
+                .OrderBy(a => a.Id).ToListAsync();
         }
 
         public async Task<Address>? GetAddressByIdAsync(int id)
         {
-            var addressToFind = await context.Address 
-                .Include (sch => sch.School)
+            var addressToFind = await context.Address
+                .Include(sch => sch.School)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (addressToFind == null) 
+            if (addressToFind == null)
             {
                 throw new ArgumentException("Can not find that address");
             }
@@ -49,7 +51,7 @@ namespace StudentsProblem.Models
         public async Task<int> DeleteAddressAsync(int id)
         {
             var addressToDelete = await context.Address.FirstOrDefaultAsync(x => x.Id == id);
-            if ( addressToDelete == null)
+            if (addressToDelete == null)
             {
                 throw new ArgumentException("Address to delete can not be found");
             }

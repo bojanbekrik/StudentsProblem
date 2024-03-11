@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
+using StudentsProblem.Repositories;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

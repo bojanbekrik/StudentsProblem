@@ -1,4 +1,4 @@
-﻿namespace StudentsProblem.Models
+﻿namespace StudentsProblem.Dtos
 {
     public class SchoolAddressRequestDto
     {

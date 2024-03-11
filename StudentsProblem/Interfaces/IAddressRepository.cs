@@ -1,4 +1,6 @@
-﻿namespace StudentsProblem.Models
+﻿using StudentsProblem.Models;
+
+namespace StudentsProblem.Interfaces
 {
     public interface IAddressRepository
     {

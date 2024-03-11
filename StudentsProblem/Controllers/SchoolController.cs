@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentsProblem.Dtos;
+using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
 
 namespace StudentsProblem.Controllers

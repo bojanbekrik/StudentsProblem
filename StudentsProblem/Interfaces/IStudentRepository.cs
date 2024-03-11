@@ -1,4 +1,6 @@
-﻿namespace StudentsProblem.Models
+﻿using StudentsProblem.Models;
+
+namespace StudentsProblem.Interfaces
 {
     public interface IStudentRepository
     {
@@ -10,7 +12,7 @@
 
         Task UpdateStudentAsync(Student student, IEnumerable<int> selectedCourseIds);
 
-        Task <int> DeleteStudentAsync(int id);
+        Task<int> DeleteStudentAsync(int id);
 
         Task<IEnumerable<Student>> SearchStudentsAsync(string searchByNameOrSurname);
 

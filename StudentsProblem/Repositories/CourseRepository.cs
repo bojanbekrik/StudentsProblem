@@ -1,8 +1,10 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore;
+using StudentsProblem.Interfaces;
+using StudentsProblem.Models;
 
-namespace StudentsProblem.Models
+namespace StudentsProblem.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
@@ -24,7 +26,7 @@ namespace StudentsProblem.Models
 
         public async Task<Course?> GetCourseByIdAsync(int id)
         {
-            return await _context.Courses.FirstOrDefaultAsync(x=>x.CourseId == id);
+            return await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
         }
 
         public async Task<int> UpdateCourseAsync(Course course)

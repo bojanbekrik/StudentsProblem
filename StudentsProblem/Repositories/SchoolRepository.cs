@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentsProblem.Interfaces;
+using StudentsProblem.Models;
 
-namespace StudentsProblem.Models
+namespace StudentsProblem.Repositories
 {
     public class SchoolRepository : ISchoolRepository
     {
@@ -24,7 +26,7 @@ namespace StudentsProblem.Models
             var school = await context.School
                 .Include(a => a.Address)
                 .FirstOrDefaultAsync(sch => sch.Id == id);
-                
+
             if (school == null)
             {
                 throw new ArgumentException("School with that id can not be found");

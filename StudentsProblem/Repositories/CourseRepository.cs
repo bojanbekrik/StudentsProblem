@@ -8,17 +8,17 @@ namespace StudentsProblem.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext context;
 
         public CourseRepository(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
             //return await _context.Courses.OrderBy(x => x.CourseId).ToListAsync(); 
-            return await _context.Courses
+            return await context.Courses
                 .Include(sc => sc.StudentCourses)
                 .ThenInclude(s => s.Student)
                 .OrderBy(x => x.CourseId).ToListAsync();
@@ -26,17 +26,17 @@ namespace StudentsProblem.Repositories
 
         public async Task<Course?> GetCourseByIdAsync(int id)
         {
-            return await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+            return await context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
         }
 
         public async Task<int> UpdateCourseAsync(Course course)
         {
-            var c = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == course.CourseId);
+            var c = await context.Courses.FirstOrDefaultAsync(x => x.CourseId == course.CourseId);
 
             if (c != null)
             {
                 c.CourseName = course.CourseName;
-                return await _context.SaveChangesAsync();
+                return await context.SaveChangesAsync();
             }
             else
             {
@@ -46,26 +46,26 @@ namespace StudentsProblem.Repositories
 
         public async Task<int> DeleteCourseAsync(int id)
         {
-            var c = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+            var c = await context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
 
             if (c == null)
             {
                 throw new ArgumentException("Course to delete cant be found");
             }
 
-            _context.Courses.Remove(c);
-            return await _context.SaveChangesAsync();
+            context.Courses.Remove(c);
+            return await context.SaveChangesAsync();
         }
 
         public async Task<int> AddCourseAsync(Course course)
         {
-            _context.Courses.Add(course);
-            return await _context.SaveChangesAsync();
+            context.Courses.Add(course);
+            return await context.SaveChangesAsync();
         }
 
         public async Task<int> GetAllCoursesCountAsync()
         {
-            IQueryable<Course> allCourses = from c in _context.Courses select c;
+            IQueryable<Course> allCourses = from c in context.Courses select c;
             var count = await allCourses.CountAsync();
 
             return count;
@@ -73,7 +73,7 @@ namespace StudentsProblem.Repositories
 
         public async Task<IEnumerable<Course>> GetCoursesPagedAsync(int? pageNumber, int pageSize)
         {
-            IQueryable<Course> courses = from c in _context.Courses select c;
+            IQueryable<Course> courses = from c in context.Courses select c;
 
             pageNumber ??= 1;
 

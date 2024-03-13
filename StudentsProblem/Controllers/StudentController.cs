@@ -13,15 +13,13 @@ namespace StudentsProblem.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository studentRepository;
-        private readonly ICourseRepository courseRepository;
         private readonly ApplicationDbContext context;
         private int pageSize = 2;
 
-        public StudentController(IStudentRepository studentRepository, ICourseRepository courseRepository, ApplicationDbContext context)
+        public StudentController(IStudentRepository studentRepository, ApplicationDbContext context)
         {
             this.studentRepository = studentRepository;
-            this.courseRepository = courseRepository;
-            this.context = context;     
+            this.context = context;
         }
 
         [HttpGet]

@@ -11,16 +11,16 @@ namespace StudentsProblem.Repositories
 {
     public class StudentRepository : IStudentRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext context;
 
         public StudentRepository(ApplicationDbContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
-            return await _context.Students.Include(sc => sc.StudentCourses)
+            return await context.Students.Include(sc => sc.StudentCourses)
                 .ThenInclude(c => c.Course)
                 .Include(sch => sch.School)
                 .OrderBy(s => s.StudentId)
@@ -29,13 +29,13 @@ namespace StudentsProblem.Repositories
 
         public async Task<int> AddStudentAsync(Student student)
         {
-            _context.Students.Add(student);
-            return await _context.SaveChangesAsync();
+            context.Students.Add(student);
+            return await context.SaveChangesAsync();
         }
 
         public async Task<Student?> GetStudentByIdAsync(int id)
         {
-            return await _context.Students
+            return await context.Students
                 .Include(sc => sc.StudentCourses)
                 .ThenInclude(c => c.Course)
                 .Include(sch => sch.School)
@@ -58,18 +58,18 @@ namespace StudentsProblem.Repositories
                 });
             }
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteStudentAsync(int id)
         {
-            var studentToDelete = await _context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
+            var studentToDelete = await context.Students.FirstOrDefaultAsync(s => s.StudentId == id);
 
             if (studentToDelete != null)
             {
-                _context.Students.Remove(studentToDelete);
+                context.Students.Remove(studentToDelete);
 
-                return await _context.SaveChangesAsync();
+                return await context.SaveChangesAsync();
             }
             else
             {
@@ -79,7 +79,7 @@ namespace StudentsProblem.Repositories
 
         public async Task<IEnumerable<Student>> SearchStudentsAsync(string searchByNameOrSurname)
         {
-            var students = from s in _context.Students select s;
+            var students = from s in context.Students select s;
 
             if (searchByNameOrSurname == null)
             {
@@ -95,7 +95,7 @@ namespace StudentsProblem.Repositories
 
         public async Task<int> GetAllStudentsCountAsync()
         {
-            IQueryable<Student> allStudents = from s in _context.Students select s;
+            IQueryable<Student> allStudents = from s in context.Students select s;
             var count = await allStudents.CountAsync();
 
             return count;
@@ -103,7 +103,7 @@ namespace StudentsProblem.Repositories
 
         public async Task<IEnumerable<Student>> GetStudentsPagedAsync(int? pageNumber, int pageSize)
         {
-            IQueryable<Student> students = from s in _context.Students select s;
+            IQueryable<Student> students = from s in context.Students select s;
 
             pageNumber ??= 1;
 
@@ -114,7 +114,7 @@ namespace StudentsProblem.Repositories
 
         public async Task<Student> SearchStudentByIndeksAsync(int indeks)
         {
-            var students = from s in _context.Students select s;
+            var students = from s in context.Students select s;
 
             students = students.Where(s => s.Indeks.Equals(indeks));
 

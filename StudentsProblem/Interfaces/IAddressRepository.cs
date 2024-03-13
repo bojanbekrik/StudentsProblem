@@ -14,5 +14,8 @@ namespace StudentsProblem.Interfaces
 
         Task<int> DeleteAddressAsync(int id);
 
+        Task<int> GetAllAddressesCountAsync();
+
+        Task<IEnumerable<Address>> GetAddressesPagedAsync(int? pageNumber, int pageSize);
     }
 }

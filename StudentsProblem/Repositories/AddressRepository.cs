@@ -61,6 +61,27 @@ namespace StudentsProblem.Repositories
                 return await context.SaveChangesAsync();
             }
         }
+
+        public async Task<int> GetAllAddressesCountAsync()
+        {
+            IQueryable<Address> allAddresses = from a in context.Address select a;
+
+            var count = await allAddresses.CountAsync();
+
+            return count;
+        }
+
+        public async Task<IEnumerable<Address>> GetAddressesPagedAsync(int? pageNumber, int pageSize)
+        {
+            IQueryable<Address> addresses = from a in context.Address select a;
+
+            pageNumber ??= 1;
+
+            addresses = addresses.Skip((pageNumber.Value-1) * pageSize).Take(pageSize);
+
+            return await addresses.AsNoTracking().ToListAsync();
+        }
+
     }
 }
 

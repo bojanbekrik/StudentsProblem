@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
+using StudentsProblem.Utilities;
 
 namespace StudentsProblem.Controllers
 {
@@ -11,6 +12,8 @@ namespace StudentsProblem.Controllers
     public class AddressController : ControllerBase
     {
         private readonly IAddressRepository addressRepository;
+
+        private int pageSize = 2;
 
         public AddressController(IAddressRepository addressRepository)
         {
@@ -70,5 +73,18 @@ namespace StudentsProblem.Controllers
                 return Ok(addressToDelete);
             }
         }
-    }   
+
+        [HttpGet("/paginationOfAddresses")]
+        public async Task<IActionResult> IndexPaging(int? pageNumber)
+        {
+            var addresses = await addressRepository.GetAddressesPagedAsync(pageNumber, pageSize);
+
+            pageNumber ??= 1;
+
+            var count = await addressRepository.GetAllAddressesCountAsync();
+
+            return new JsonResult(new PaginatedList<Address>(addresses.ToList(), count, pageNumber.Value, pageSize));
+        }
+
+    }
 }

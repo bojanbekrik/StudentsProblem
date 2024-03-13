@@ -38,6 +38,9 @@ namespace StudentsProblem.Models
                 .HasMany(s => s.Students)
                 .WithOne(sch => sch.School)
                 .OnDelete(DeleteBehavior.ClientCascade);
+
+            //adresa so skolo one to one
+            //adresa so student one to one
         }
     }
 }

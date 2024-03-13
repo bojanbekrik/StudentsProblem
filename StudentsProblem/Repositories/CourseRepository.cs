@@ -62,5 +62,24 @@ namespace StudentsProblem.Repositories
             _context.Courses.Add(course);
             return await _context.SaveChangesAsync();
         }
+
+        public async Task<int> GetAllCoursesCountAsync()
+        {
+            IQueryable<Course> allCourses = from c in _context.Courses select c;
+            var count = await allCourses.CountAsync();
+
+            return count;
+        }
+
+        public async Task<IEnumerable<Course>> GetCoursesPagedAsync(int? pageNumber, int pageSize)
+        {
+            IQueryable<Course> courses = from c in _context.Courses select c;
+
+            pageNumber ??= 1;
+
+            courses = courses.Skip((pageNumber.Value-1) * pageSize).Take(pageSize);
+
+            return await courses.AsNoTracking().ToListAsync();
+        }
     }
 }

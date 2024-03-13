@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
+using StudentsProblem.Utilities;
 using System.Security.Cryptography.Xml;
 
 namespace StudentsProblem.Controllers
@@ -10,6 +11,8 @@ namespace StudentsProblem.Controllers
     public class CourseController : ControllerBase
     {
         private readonly ICourseRepository _courseRepository;
+
+        private int pageSize = 2;
 
         public CourseController(ICourseRepository courseRepository)
         {
@@ -64,6 +67,18 @@ namespace StudentsProblem.Controllers
         {
             await _courseRepository.AddCourseAsync(course);
             return Ok(course);
+        }
+
+        [HttpGet("/paginationOfCourses")]
+        public async Task<IActionResult> IndexPaging(int? pageNumber)
+        {
+            var courses = await _courseRepository.GetCoursesPagedAsync(pageNumber, pageSize);
+
+            pageNumber ??= 1;
+
+            var count = await _courseRepository.GetAllCoursesCountAsync();
+
+            return new JsonResult(new PaginatedList<Course>(courses.ToList(), count, pageNumber.Value, pageSize));
         }
 
     }

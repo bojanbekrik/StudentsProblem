@@ -13,5 +13,9 @@ namespace StudentsProblem.Interfaces
         Task<int> DeleteCourseAsync(int id);
 
         Task<int> AddCourseAsync(Course course);
+
+        Task<int> GetAllCoursesCountAsync();
+
+        Task<IEnumerable<Course>> GetCoursesPagedAsync(int? pageNumber, int pageSize);
     }
 }

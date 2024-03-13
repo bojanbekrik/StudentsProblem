@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsProblem.Models;
 
@@ -11,9 +12,11 @@ using StudentsProblem.Models;
 namespace StudentsProblem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240313132057_ConnectingAddressAndStudent")]
+    partial class ConnectingAddressAndStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,7 @@ namespace StudentsProblem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.Course", b =>
@@ -56,7 +59,7 @@ namespace StudentsProblem.Migrations
 
                     b.HasKey("CourseId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.School", b =>
@@ -79,7 +82,7 @@ namespace StudentsProblem.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.ToTable("School", (string)null);
+                    b.ToTable("School");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.Student", b =>
@@ -115,7 +118,7 @@ namespace StudentsProblem.Migrations
 
                     b.HasIndex("SchoolId");
 
-                    b.ToTable("Students", (string)null);
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.StudentCourse", b =>
@@ -141,7 +144,7 @@ namespace StudentsProblem.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentCourse", (string)null);
+                    b.ToTable("StudentCourse");
                 });
 
             modelBuilder.Entity("StudentsProblem.Models.School", b =>

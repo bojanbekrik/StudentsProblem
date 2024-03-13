@@ -15,5 +15,9 @@
         public int SchoolId { get; set; }
 
         public School School { get; set; } 
+
+        public int? AddressId { get; set; }
+
+        public Address? Address { get; set; }
     }
 }

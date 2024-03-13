@@ -13,12 +13,16 @@ namespace StudentsProblem.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentRepository studentRepository;
+        private readonly IAddressRepository addressRepository;
+        private readonly ISchoolRepository schoolRepository;
         private readonly ApplicationDbContext context;
         private int pageSize = 2;
 
-        public StudentController(IStudentRepository studentRepository, ApplicationDbContext context)
+        public StudentController(IStudentRepository studentRepository, IAddressRepository addressRepository, ISchoolRepository schoolRepository, ApplicationDbContext context)
         {
             this.studentRepository = studentRepository;
+            this.addressRepository = addressRepository;
+            this.schoolRepository = schoolRepository;
             this.context = context;
         }
 
@@ -37,7 +41,8 @@ namespace StudentsProblem.Controllers
                 Indeks = scrq.Indeks,
                 Name = scrq.Name,
                 Surname = scrq.Surname,
-                SchoolId = scrq.SchoolId
+                SchoolId = scrq.SchoolId,
+                AddressId = scrq.AddressId
             };
 
             foreach (var course in scrq.CourseIds)
@@ -73,7 +78,11 @@ namespace StudentsProblem.Controllers
             student.Name = scrd.Name;
             student.Surname = scrd.Surname;
             student.Indeks = scrd.Indeks;
-            
+
+            student.School = await schoolRepository.GetSchoolByIdAsync(scrd.SchoolId);
+
+            student.Address = await addressRepository.GetAddressByIdAsync(scrd.AddressId);
+
             await studentRepository.UpdateStudentAsync(student, scrd.CourseIds);
 
             context.Students.Update(student);

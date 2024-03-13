@@ -11,5 +11,7 @@
         public int SchoolId { get; set; }
 
         public int[] CourseIds { get; set; }
+
+        public int AddressId { get; set; }
     }
 }

@@ -9,5 +9,7 @@
         public int Number { get; set; }
 
         public School? School { get; set; }
+
+        public Student? Student { get; set; }
     }
 }

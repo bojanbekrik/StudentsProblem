@@ -16,6 +16,8 @@ namespace StudentsProblem.Models
 
         public DbSet<School> School { get; set; }
 
+        public DbSet<Professor> Professors { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

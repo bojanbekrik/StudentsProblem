@@ -15,12 +15,19 @@ namespace StudentsProblem.Repositories
 
         public async Task<IEnumerable<Professor>> GetAllProfessorsAsync()
         {
-            return await context.Professors.OrderBy(p => p.Id).ToListAsync();
+            //return await context.Professors.OrderBy(p => p.Id).ToListAsync();
+            return await context.Professors.Include(pc => pc.ProfessorCourses)
+                .ThenInclude(c => c.Course)
+                .OrderBy(p => p.Id)
+                .ToListAsync();
         }
 
         public async Task<Professor> GetProfessorByIdAsync(int id)
         {
-            return await context.Professors.FirstOrDefaultAsync(p => p.Id == id);
+            return await context.Professors         
+                .Include(pc => pc.ProfessorCourses)
+                .ThenInclude(c => c.Course)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<int> AddProfessorAsync(Professor professor)
@@ -29,11 +36,25 @@ namespace StudentsProblem.Repositories
             return await context.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateProfessorAsync(Professor professor)
+        public async Task<int> UpdateProfessorAsync(Professor professor, IEnumerable<int> selectedCourseIds)
         {
-            context.Professors.Update(professor);
+            var existingIds = professor.ProfessorCourses.Select(pc => pc.CourseId).ToList();
+            var toAdd = selectedCourseIds.Except(existingIds).ToList();
+            var toRemove = existingIds.Except(selectedCourseIds).ToList();
+
+            professor.ProfessorCourses.RemoveAll(pc => toRemove.Contains(pc.CourseId));
+
+            foreach (var courseId in toAdd)
+            {
+                professor.ProfessorCourses.Add(new ProfessorCourse()
+                {
+                    CourseId = courseId
+                });
+            }
             return await context.SaveChangesAsync();
+
         }
+        //NAPRAI MIGRACIJA ZA PROF COURSES. ..
 
         public async Task<int> DeleteProfessorAsync(int id)
         {

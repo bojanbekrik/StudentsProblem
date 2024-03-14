@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using StudentsProblem.Dtos;
 using StudentsProblem.Interfaces;
 using StudentsProblem.Models;
 
@@ -11,10 +12,12 @@ namespace StudentsProblem.Controllers
     public class ProfessorController : ControllerBase
     {
         private readonly IProfessorRepository professorRepository;
+        private readonly ApplicationDbContext context;
 
-        public ProfessorController(IProfessorRepository professorRepository)
+        public ProfessorController(IProfessorRepository professorRepository, ApplicationDbContext context)
         {
             this.professorRepository = professorRepository;
+            this.context = context;
         }
 
         [HttpGet]
@@ -32,25 +35,41 @@ namespace StudentsProblem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Professor professor)
+        public async Task<IActionResult> Add(ProfessorCourseRequestDto pcrd)
         {
-            await professorRepository.AddProfessorAsync(professor);
-            if (professor == null)
+            var professor = new Professor()
             {
-                return NotFound();
+                Name = pcrd.ProfessorName
+            };
+
+            foreach (var course in pcrd.CourseIds)
+            {
+                professor.ProfessorCourses.Add(new ProfessorCourse()
+                {
+                    Professor = professor,
+                    CourseId = course
+                });
             }
+
+            await professorRepository.AddProfessorAsync(professor);
             return Ok(professor);
         }
 
         [HttpPut("{id}/update")]
-        public async Task<IActionResult> Update(Professor professor)
+        public async Task<IActionResult> Update(int id, ProfessorCourseRequestDto pcrd)
         {
+            var professor = await professorRepository.GetProfessorByIdAsync(id);
+
             if (professor == null)
             {
                 return NotFound();
             }
 
-            await professorRepository.UpdateProfessorAsync(professor);
+            professor.Name = pcrd.ProfessorName;
+
+            await professorRepository.UpdateProfessorAsync(professor, pcrd.CourseIds);
+
+            context.Professors.Update(professor);
             return Ok(professor);
         }
 

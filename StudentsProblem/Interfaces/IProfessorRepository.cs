@@ -10,7 +10,7 @@ namespace StudentsProblem.Interfaces
 
         public Task<int> AddProfessorAsync(Professor professor);
 
-        public Task<int> UpdateProfessorAsync(Professor professor);
+        public Task<int> UpdateProfessorAsync(Professor professor, IEnumerable<int> selectedCourses);
 
         public Task<int> DeleteProfessorAsync(int id);
     }

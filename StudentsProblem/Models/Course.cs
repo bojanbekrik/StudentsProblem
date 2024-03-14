@@ -7,5 +7,7 @@
         public string CourseName { get; set; }
 
         public List<StudentCourse> StudentCourses { get; } = [];
+
+        public List<ProfessorCourse> ProfessorCourses { get; } = [];
     }
 }

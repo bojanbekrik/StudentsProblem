@@ -41,6 +41,16 @@ namespace StudentsProblem.Models
                 .WithOne(sch => sch.School)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
+            modelBuilder.Entity<Professor>()
+                .HasMany(pc => pc.ProfessorCourses)
+                .WithOne(p => p.Professor)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<Course>()
+                .HasMany(pc => pc.ProfessorCourses)
+                .WithOne(c => c.Course)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
             //adresa so skolo one to one
             //adresa so student one to one
         }

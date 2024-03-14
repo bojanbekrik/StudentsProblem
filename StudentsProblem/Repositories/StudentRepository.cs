@@ -105,7 +105,21 @@ namespace StudentsProblem.Repositories
 
         public async Task<IEnumerable<Student>> GetStudentsPagedAsync(int? pageNumber, int pageSize)
         {
-            IQueryable<Student> students = from s in context.Students select s;
+            IQueryable<Student> students = 
+                from s 
+                in context.Students 
+                join a in context.Address on s.AddressId equals a.Id into addressGroup
+                from address in addressGroup.DefaultIfEmpty() 
+                select new Student
+                {
+                    StudentId = s.StudentId,
+                    Indeks = s.Indeks,
+                    Name = s.Name,
+                    Surname = s.Surname,
+                    SchoolId = s.SchoolId,
+                    AddressId = s.AddressId,
+                    Address = address 
+                };
 
             pageNumber ??= 1;
 

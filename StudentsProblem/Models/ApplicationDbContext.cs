@@ -51,8 +51,21 @@ namespace StudentsProblem.Models
                 .WithOne(c => c.Course)
                 .OnDelete(DeleteBehavior.ClientCascade);
 
+            modelBuilder.Entity<ProfessorCourse>()
+                .HasIndex(pc => pc.Id)
+                .IsUnique();
+
             //adresa so skolo one to one
+            modelBuilder.Entity<Address>()
+                .HasOne(sch => sch.School)
+                .WithOne(a => a.Address)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
             //adresa so student one to one
+            modelBuilder.Entity<Address>()
+                .HasOne(stu => stu.Student)
+                .WithOne(a => a.Address)
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
